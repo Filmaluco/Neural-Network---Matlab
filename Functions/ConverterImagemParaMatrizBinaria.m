@@ -1,7 +1,6 @@
 function A=ConverterImagemParaMatrizBinaria(PATH)
 A=imread(PATH);
 
-ta = size(A);
 
 for i=1:ta(1,1) 
     for j=1:ta(1,2)    
@@ -15,3 +14,4 @@ end
 
 
 end
+
