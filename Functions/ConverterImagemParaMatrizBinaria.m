@@ -1,15 +1,11 @@
-A=imread('1.jpg');
 
-ta = size(A);
+path
 
-for i=1:ta(1,1) 
-    for j=1:ta(1,2)    
-        if(A(i,j)<125)     
-            A(i,j)=0;  %0 -> PRETO
-        else
-            A(i,j)=1;   % 1 -> BRANCO
-        end
-    end
+imagefiles = dir('../Tema 1 - RN/Folhas_1/*.jpg');      
+nfiles = length(imagefiles)    % Number of files found
+
+for i=1:nfiles
+   currentfilename = imagefiles(i).name;
+   currentimage = imread(currentfilename);
+   images{i} = currentimage;
 end
-
-display(A);
