@@ -1,0 +1,7 @@
+images(k).id
+images(k).especie
+images(k).subEspecie
+images(k).path
+images(k).matriz
+images(k).codigoEspecie
+images(k).codigoSubEspecie

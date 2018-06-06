@@ -1,0 +1,10 @@
+function imagens = GetDataToStruct( imagens )
+
+    a = size(imagens);
+    n = a(2)
+    
+
+    for 
+    
+end
+
