@@ -1,8 +1,11 @@
 function out = neuronalNetwork(Imagens)
 
 
-
-
+for k=1 : size(Imagens)
+    Inputs(k) = Imagens(k).matriz;
+    display(Inputs(k));
+    Targets(k) = Imagens(k).codigoEspecie;
+end
 
 % CRIAR E CONFIGURAR A REDE NEURONAL
 % INDICAR: N? camadas escondidas e nos por camada escondida
@@ -10,8 +13,8 @@ function out = neuronalNetwork(Imagens)
 % INDICAR: Funcoes de ativacao das camadas escondidas e de saida: {'purelin', 'logsig', 'tansig'}
 % INDICAR: Divisao dos exemplos pelos conjuntos de treino, validacao e teste
 
-net = feedforwardnet(1,10,1); % N Camadas / 1 de camda (?)
-%net.layers{1}.size = 10; % N de neurónios (?)
+net = feedforwardnet(2); % N Camadas / 1 de camda (?)
+net.layers{1}.size = 10; % N de neurónios (?)
 
 net.layers{1}.transferFcn = 'tansig';  %Função de ativação da camada
 %net.layers{2}.transferFcn = 'tansig';
@@ -29,7 +32,7 @@ net.divideParam.testRatio = 0.05; % Teste
 %----
 
 % TREINAR
-[net,tr] = train(net,Imagens.matriz,Imagens.codigoEspecie);
+[net,tr] = train(net,Imagens.matriz,Targets);
 view(net);
 disp(tr)
 % SIMULAR
