@@ -43,7 +43,7 @@ function imagens = GetDataToStruct( imagens , fileName)
               end
               
                for j=1 : nr_subSpecies
-               if strcmp(imagens(k).codigoSubEspecie, subSpecies(j)) == 1
+               if strcmp(imagens(k).especie, species(j)) == 1
                    tempCodeSpecie(j) = 1;
                end
               end
