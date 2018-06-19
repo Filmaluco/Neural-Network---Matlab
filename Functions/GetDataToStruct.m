@@ -20,7 +20,21 @@ function imagens = GetDataToStruct( imagens , fileName)
               imagens(k).subEspecie = raw{i,3};
           end
         
+       end
+    
+%    code = array(0,(size(imagens.especie)));
+    
+    %zero(code);
+    B = unique(imagens);
+    code = zero(size(B));
+    
+    for k=1 : size(code)
+    if(k == imagens(k).id)
+        code(k) = 1;
+        imagens(k).codigoEspecie = code;
+        code(k) = 0;
     end
     
+    end
 end
 

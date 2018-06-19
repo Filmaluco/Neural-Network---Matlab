@@ -26,3 +26,5 @@ for k = 1:length(jpegFiles)
  
  
 end
+
+
