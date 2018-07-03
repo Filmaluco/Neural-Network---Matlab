@@ -1,10 +1,5 @@
 function imagens = GetDataToStruct( imagens , fileName , scale)
 
-
-    %TODO get as param
-    fileName = '..\Tema 1 - RN\ClassificaçãoFolhas.xlsx';
-    
-   
     [num,txt,raw] = xlsread(fileName);
     
     a = size(imagens);
@@ -50,7 +45,6 @@ function imagens = GetDataToStruct( imagens , fileName , scale)
                    if strcmp(imagens(k).subEspecie, subSpecies(j)) == 1
                        
                        tempCodesubSpecie(1,j) = 1; %Nao devia ser tempCodesubSpecie
-                        disp(tempCodesubSpecie(1,j));
                    end
                end
               

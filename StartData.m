@@ -7,8 +7,8 @@ scale = 250;
 data_file = '.\Tema 1 - RN\ClassificaçãoFolhas.xlsx';
     
 
-imagens = GetStructsFromDir(path_to_files);
-imagens = GetDataToStruct(imagens,data_file);
+imagens = GetStructsFromDir(path_to_files, scale);
+imagens = GetDataToStruct(imagens,data_file, scale);
 
 
 end
