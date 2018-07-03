@@ -3,7 +3,7 @@ addpath(genpath('./Functions'));
 
 %override for test's
 path_to_files = './Tema 1 - RN\Folhas_1';
-scale = 250;
+scale = 200;
 data_file = '.\Tema 1 - RN\ClassificaçãoFolhas.xlsx';
     
 
