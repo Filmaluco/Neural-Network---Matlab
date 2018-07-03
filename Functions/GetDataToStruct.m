@@ -1,9 +1,5 @@
 function imagens = GetDataToStruct( imagens , fileName)
 
-
-    %TODO get as param
-    fileName = '..\Tema 1 - RN\ClassificaçãoFolhas.xlsx';
-    
    
     [num,txt,raw] = xlsread(fileName);
     

@@ -1,8 +1,7 @@
 function imagens = GetStructsFromDir(PATH)
 
- myFolder = '../Tema 1 - RN\Folhas_1';
-% myFolder = PATH
-
+ myFolder = PATH;
+ 
 if ~isdir(myFolder)
   errorMessage = sprintf('Error: The following folder does not exist:\n%s', myFolder);
   uiwait(warndlg(errorMessage));
