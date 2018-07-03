@@ -39,18 +39,18 @@ function imagens = GetDataToStruct( imagens , fileName , scale)
               
               
               for j=1 : nr_species
-                 % disp('Especie nr '); disp(j); disp(':'); disp(species(j));
+                  disp('Especie nr '); disp(j); disp(':'); disp(species(j));
                if strcmp(imagens(k).especie, species(j)) == 1
                    tempCodeSpecie(1,j) = 1;
                end
               end
               
                for j=1 : nr_subSpecies
-                      %disp('SubEspecie nr '); disp(j); disp(':'); disp(subSpecies(j));
-                   if strcmp(imagens(k).subEspecie, subSpecies(j)) == 1
+                     % disp('SubEspecie nr '); disp(j); disp(':'); disp(subSpecies(j));
+                   if strcmp(imagens(k).codigoSubEspecie, subSpecies(j)) == 1
                        
                        tempCodesubSpecie(1,j) = 1; %Nao devia ser tempCodesubSpecie
-                        disp(tempCodesubSpecie(1,j));
+                        display(tempCodesubSpecie(1,j));
                    end
                end
               
