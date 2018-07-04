@@ -5,7 +5,7 @@ function output = codigoToVector(imagens)
    
     
     for i = 1 : nr_imagens
-       output(i,:) = transpose(imagens(i).codigoEspecie(:));    
+       output(:,i) = imagens(i).codigoEspecie(:);    
     end
 
 end

@@ -5,6 +5,6 @@ function output = imagensToVector(imagens)
    
     
     for i = 1 : nr_imagens
-       output(i,:) = transpose(imagens(i).matriz(:));    
+     output(:,i) = imagens(i).matriz(:);    
     end
 end

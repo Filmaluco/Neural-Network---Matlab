@@ -1,4 +1,4 @@
-function [redeNeuronal data] = StartData(data_file, path_to_files, scale)
+function [imagens input target] = StartData(data_file, path_to_files, scale)
 addpath(genpath('./Functions'));
 
 %override for test's

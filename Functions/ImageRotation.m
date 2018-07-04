@@ -1,4 +1,4 @@
-function rotatedImage = ImageRotation(PATH)
+ function rotatedImage = ImageRotation(PATH)
 % Read in the color demo image.
 [rgbImage, colorMap] = imread(PATH);
 

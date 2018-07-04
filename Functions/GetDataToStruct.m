@@ -17,8 +17,8 @@ function imagens = GetDataToStruct( imagens , fileName , scale)
      
      %empty_code_specie = zeros(nr_species);
 
-     empty_code_specie = zeros(scale);
-     empty_code_subSpecies = zeros(scale);
+     empty_code_specie = zeros(1,scale);
+     empty_code_subSpecies = zeros(1,scale);
 
     
     for k=1 : nr_imagens
