@@ -10,5 +10,13 @@ data_file = '.\Tema 1 - RN\ClassificaçãoFolhas.xlsx';
 imagens = GetStructsFromDir(path_to_files, scale);
 imagens = GetDataToStruct(imagens,data_file, scale);
 
+%input = imagensToVector(imagens);
+
+% input = imagensToVector 
+% target = codigoToVector
+
+%[redeNeuronal data] = neuronalNetwork(input, target);
+%view(net);
+%disp(tr)
 
 end

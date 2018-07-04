@@ -2,6 +2,7 @@ function matriz=ConverterImagemParaMatrizBinaria(PATH,scale)
 matriz=imread(PATH);
  
 matriz = rotateThisImage(matriz);
+matriz = convertImageToData(matriz, scale);
 ta = size(matriz);
 
 for i=1:ta(1,1) 
@@ -14,10 +15,8 @@ for i=1:ta(1,1)
     end
 end
 
-matriz = convertImageToData(matriz, scale);
 
-imshow(matriz);
-pause(2);
+
 
 
 end

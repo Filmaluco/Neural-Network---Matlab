@@ -1,4 +1,4 @@
-function out = neuronalNetwork(Imagens)
+function [net,tr] = neuronalNetwork(input, target)
 
 
 
@@ -10,7 +10,7 @@ function out = neuronalNetwork(Imagens)
 % INDICAR: Funcoes de ativacao das camadas escondidas e de saida: {'purelin', 'logsig', 'tansig'}
 % INDICAR: Divisao dos exemplos pelos conjuntos de treino, validacao e teste
 
-net = feedforwardnet(1,10,1); % N Camadas / 1 de camda (?)
+net = feedforwardnet(10); % N Camadas / 1 de camda (?)
 %net.layers{1}.size = 10; % N de neurónios (?)
 
 net.layers{1}.transferFcn = 'tansig';  %Função de ativação da camada
@@ -29,24 +29,5 @@ net.divideParam.testRatio = 0.05; % Teste
 %----
 
 % TREINAR
-[net,tr] = train(net,Imagens.matriz,Imagens.codigoEspecie);
-view(net);
-disp(tr)
-% SIMULAR
-out = sim(net, irisInputs);
-
-%----
-
-%VISUALIZAR DESEMPENHO
-
-plotconfusion(irisTargets, out) % Matriz de confusao
-
-plotperf(tr)         % Grafico com o desempenho da rede nos 3 conjuntos           
-
-
-% SIMULAR A REDE APENAS NO CONJUNTO DE TESTE
-%TInput = irisInputs(:, tr.testInd);
-%TTargets = irisTargets(:, tr.testInd);
-
-%out = sim(net, TInput);
+[net,tr] = train(net,input,target);
 end
