@@ -5,8 +5,8 @@ matriz=imread(PATH);
 blankimage = zeros(scale);
 
 matriz = rotateThisImage(matriz);
-imshow(matriz);
-pause(2);
+%imshow(matriz);
+%pause(2);
 %matriz = imresize(matriz,[scale,scale]);
 %imagem = ImageRotation(PATH);
 %ta = size(imagem); 
