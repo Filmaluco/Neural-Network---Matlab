@@ -1,7 +1,8 @@
 function matriz=ConverterImagemParaMatrizBinaria(PATH,scale)
 matriz=imread(PATH);
-%imagem = ImageRotation(PATH);
-ta = size(matriz); 
+ 
+matriz = rotateThisImage(matriz);
+ta = size(matriz);
 
 for i=1:ta(1,1) 
     for j=1:ta(1,2)    
