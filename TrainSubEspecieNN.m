@@ -1,4 +1,4 @@
-function [redeNeuronal data timers precision, input, target] = TrainSubEspecieNN(data_file, path_to_files, scale)
+function [redeNeuronal data timers precision] = TrainSubEspecieNN(data_file, path_to_files, scale)
 addpath(genpath('./Functions'));
 
 
@@ -14,15 +14,12 @@ imagens = LoadImages(path_to_files, scale);
 imagens = UpdateImages(imagens,data_file, scale);
     %- Input and Output Generation
 inImagens = inputImages(imagens);
-inEspecie = inputCodigoEspecie(imagens);
 target = targetCodigoSubEspecie(imagens);
 data_extration = toc(tstart); %timer
 
-input = {inImagens;inEspecie};
-
 %Run Especie NN -----------------------------------------------------------
 nstart = tic;
-[redeNeuronal data pTotal pTeste] = subEspecieNeuralNetwork(inImagens, inEspecie, target);
+[redeNeuronal data pTotal pTeste] = subEspecieNeuralNetwork(inImagens, target);
 cnn_extration = toc(nstart);
 %view(redeNeuronal);
 %disp(data)
