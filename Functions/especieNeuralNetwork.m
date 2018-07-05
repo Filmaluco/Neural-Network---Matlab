@@ -9,7 +9,7 @@ net = feedforwardnet(100,'trainrp');
 
 net.layers{2}.transferFcn = 'tansig';
 
-net.divideFcn = 'dividerand';
+net.divideFcn = 'divideblock';
 net.divideParam.trainRatio = 0.7;
 net.divideParam.valRatio = 0.15;
 net.divideParam.testRatio = 0.15;
