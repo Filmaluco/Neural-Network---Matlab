@@ -13,9 +13,9 @@ net = feedforwardnet(100,'trainrp');
 net.layers{2}.transferFcn = 'tansig';
 
 net.divideFcn = 'dividerand';
-net.divideParam.trainRatio = 0.4;
-net.divideParam.valRatio = 0.4;
-net.divideParam.testRatio = 0.2;
+net.divideParam.trainRatio = 0.7;
+net.divideParam.valRatio = 0.15;
+net.divideParam.testRatio = 0.15;
 
 
 % COMPLETAR A RESTANTE CONFIGURACAO
@@ -51,7 +51,7 @@ end
 
 accuracyTotal = r/size(out,2)*100;
 %------------------------- DEBUG
-%fprintf('Precisao total %f\n', accuracyTotal)
+fprintf('Precisao total %f\n', accuracyTotal)
 
 
 % SIMULAR A REDE APENAS NO CONJUNTO DE TESTE
@@ -72,6 +72,6 @@ for i=1:size(tr.testInd,2)        % Para cada classificacao
 end
 accuracyTeste = r/size(tr.testInd,2)*100;
 %------------------------- DEBUG
-%fprintf('Precisao teste %f\n', accuracyTeste)
+fprintf('Precisao teste %f\n', accuracyTeste)
 
 end

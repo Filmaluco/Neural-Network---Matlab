@@ -8,12 +8,12 @@ input = {input1;input2};
 % INDICAR: Funcoes de ativacao das camadas escondidas e de saida: {'purelin', 'logsig', 'tansig'}
 % INDICAR: Divisao dos exemplos pelos conjuntos de treino, validacao e teste
 
-net = feedforwardnet(10,'trainrp');
+net = feedforwardnet([2 10],'trainrp');
 
 net.layers{2}.transferFcn = 'tansig';
 
 net.numinputs = 2;
-net.inputConnect = [1 1; 0 0];
+net.inputConnect = [1 1; 1 0; 0 0];
 net = configure(net,input);
 
 net.divideFcn = 'dividerand';
@@ -28,18 +28,18 @@ net.divideParam.testRatio = 0.2;
 % TREINAR
 [net,tr] = train(net, input, target);
 %------------------------- DEBUG
-view(net); 
+%view(net); 
 %------------------------- DEBUG
-disp(tr);  
+%disp(tr);  
 % SIMULAR
 out = sim(net, input);
 out = cell2mat(out);
 
 %VISUALIZAR DESEMPENHO
 %------------------------- DEBUG
-plotconfusion(target, out) % Matriz de confusao
+%plotconfusion(target, out) % Matriz de confusao
 %------------------------- DEBUG
-plotperf(tr)         % Grafico com o desempenho da rede nos 3 conjuntos           
+%plotperf(tr)         % Grafico com o desempenho da rede nos 3 conjuntos           
 
 
 %Calcula e mostra a percentagem de classificacoes corretas no total dos exemplos
