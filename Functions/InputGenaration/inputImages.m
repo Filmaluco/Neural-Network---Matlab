@@ -1,4 +1,4 @@
-function output = imagensToVector(imagens)
+function output = inputImages(imagens)
 
     nr_imagens = size(imagens);
     nr_imagens = nr_imagens(1,2);

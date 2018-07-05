@@ -1,4 +1,4 @@
-function imagens = GetDataToStruct( imagens , fileName , scale)
+function imagens = UpdateImages( imagens , fileName , scale)
 
     [num,txt,raw] = xlsread(fileName);
     

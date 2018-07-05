@@ -1,4 +1,4 @@
-function imagens = GetStructsFromDir(PATH, scale)
+function imagens = LoadImages(PATH, scale)
 
  myFolder = PATH;
  

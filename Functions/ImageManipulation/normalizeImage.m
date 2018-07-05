@@ -1,4 +1,4 @@
-function ImagemDataSet=convertImageToData(originalImage, scale) 
+function ImagemDataSet=normalizeImage(originalImage, scale) 
 
 %Control Variables
     padding = 10; %padding to garanty that the border is never crossed

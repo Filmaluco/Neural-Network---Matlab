@@ -1,4 +1,4 @@
-function output = codigoToVector(imagens)
+function output = targetCodigoEspecie(imagens)
 
     nr_imagens = size(imagens);
     nr_imagens = nr_imagens(1,2);
