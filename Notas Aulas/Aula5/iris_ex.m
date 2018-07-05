@@ -34,7 +34,7 @@ rotate3d on
 % INDICAR: Funcoes de ativacao das camadas escondidas e de saida: {'purelin', 'logsig', 'tansig'}
 % INDICAR: Divisao dos exemplos pelos conjuntos de treino, validacao e teste
 
-net = feedforwardnet(10,'trainlm');
+net = feedforwardnet(10,'trainrp');
 net.layers{1}.transferFcn = 'purelin';
 net.layers{2}.transferFcn = 'logsig';
 

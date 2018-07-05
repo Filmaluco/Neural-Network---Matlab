@@ -6,9 +6,9 @@ function [net,tr] = neuronalNetwork(input, target)
 % INDICAR: Funcoes de ativacao das camadas escondidas e de saida: {'purelin', 'logsig', 'tansig'}
 % INDICAR: Divisao dos exemplos pelos conjuntos de treino, validacao e teste
 
-net = feedforwardnet(10,'trainlm');
-net.layers{1}.transferFcn = 'purelin';
-net.layers{2}.transferFcn = 'logsig';
+net = feedforwardnet(100,'trainrp');
+
+net.layers{2}.transferFcn = 'tansig';
 
 net.divideFcn = 'dividerand';
 net.divideParam.trainRatio = 0.4;
@@ -21,8 +21,8 @@ net.divideParam.testRatio = 0.2;
 
 % TREINAR
 [net,tr] = train(net, input, target);
-view(net);
-disp(tr)
+%view(net);
+%disp(tr)
 % SIMULAR
 out = sim(net, input);
 
