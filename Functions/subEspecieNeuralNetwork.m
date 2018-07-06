@@ -5,17 +5,16 @@ function [net,tr,accuracyTotal,accuracyTeste] = subEspecieNeuralNetwork(input, t
 % INDICAR: Funcoes de ativacao das camadas escondidas e de saida: {'purelin', 'logsig', 'tansig'}
 % INDICAR: Divisao dos exemplos pelos conjuntos de treino, validacao e teste
 
-net = feedforwardnet(10,'trainscg');
+net = feedforwardnet(10,'trainrp');
 
+net.layers{2}.transferFcn = 'tansig';
 
 net.divideFcn = 'divideblock';
-net.divideParam.trainRatio = 0.7; %its already the dfault but ok
-net.divideParam.valRatio = 0.15;  %its already the dfault but ok
-net.divideParam.testRatio = 0.15; %its already the dfault but ok
+net.divideParam.trainRatio = 0.7;
+net.divideParam.valRatio = 0.15;
+net.divideParam.testRatio = 0.15;
 
 net.trainParam.max_fail = 10;
-
-
 
 % COMPLETAR A RESTANTE CONFIGURACAO
 
@@ -74,3 +73,4 @@ accuracyTeste = r/size(tr.testInd,2)*100;
 fprintf('Precisao teste %f\n', accuracyTeste)
 
 end
+

@@ -11,35 +11,53 @@ function imagens = UpdateImages( imagens , fileName , scale)
     all_subSpecies = txt(:,2);
     species = unique(all_species);
     subSpecies = unique(all_subSpecies);
-    
-    display(species);
-    display(subSpecies);
      
      nr_species = size(species);
-     nr_subSpecies = size(subSpecies); 
+     nr_subSpecies = size(subSpecies);
      
      nr_species = nr_species(1,1);
      nr_subSpecies = nr_subSpecies(1,1);
      
-     %empty_code_specie = zeros(nr_species);
-
-     empty_code_specie = zeros(1,nr_species);
-     empty_code_subSpecies = zeros(1,nr_subSpecies);
-
     
     for k=1 : nr_imagens
         %first line is the names of the columms
        for i=1 : nr_linhas_excel
            
-           tempCodeSpecie = empty_code_specie;
-           tempCodesubSpecie = empty_code_subSpecies;
            
           if raw{i,1} == imagens(k).id 
               imagens(k).especie = raw{i,2};
               imagens(k).subEspecie = raw{i,3};
               
               
-              for j=1 : nr_species
+          end
+       end 
+    end
+    
+     %only generate codes for the ones who need it, not for all of them
+    
+    for k=1 : nr_imagens
+    t1{k} = imagens(k).especie;
+    t2{k} = imagens(k).subEspecie;
+    end
+    
+    species = unique(t1);
+    subSpecies = unique(t2);
+    
+    nr_species = size(species);
+    nr_subSpecies = size(subSpecies); 
+    
+    nr_species = nr_species(1,2);
+    nr_subSpecies = nr_subSpecies(1,2);
+    
+    empty_code_specie = zeros(1,nr_species);
+    empty_code_subSpecies = zeros(1,nr_subSpecies);
+    
+     for k=1 : nr_imagens
+    
+           tempCodeSpecie = empty_code_specie;
+           tempCodesubSpecie = empty_code_subSpecies;
+    
+            for j=1 : nr_species
                  % disp('Especie nr '); disp(j); disp(':'); disp(species(j));
                if strcmp(imagens(k).especie, species(j)) == 1
                    tempCodeSpecie(1,j) = 1;
@@ -59,10 +77,8 @@ function imagens = UpdateImages( imagens , fileName , scale)
                imagens(k).codigoEspecie = tempCodeSpecie;
                imagens(k).codigoSubEspecie = tempCodesubSpecie;
 
-              
-          end
-       end 
     end
+
     
 end
 
