@@ -13,12 +13,15 @@ function imagens = UpdateImages( imagens , fileName , scale)
     subSpecies = unique(all_subSpecies);
      
      nr_species = size(species);
-     nr_subSpecies = size(subSpecies);
+     nr_subSpecies = size(subSpecies); 
+     
+     nr_species = nr_species(1,1);
+     nr_subSpecies = nr_subSpecies(1,1);
      
      %empty_code_specie = zeros(nr_species);
 
-     empty_code_specie = zeros(1,scale);
-     empty_code_subSpecies = zeros(1,scale);
+     empty_code_specie = zeros(1,nr_species);
+     empty_code_subSpecies = zeros(1,nr_subSpecies);
 
     
     for k=1 : nr_imagens
@@ -43,7 +46,7 @@ function imagens = UpdateImages( imagens , fileName , scale)
                for j=1 : nr_subSpecies
                       %disp('SubEspecie nr '); disp(j); disp(':'); disp(subSpecies(j));
                    if strcmp(imagens(k).subEspecie, subSpecies(j)) == 1
-                       
+                     
                        tempCodesubSpecie(1,j) = 1; %Nao devia ser tempCodesubSpecie
                    end
                end
