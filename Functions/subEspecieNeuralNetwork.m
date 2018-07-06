@@ -5,7 +5,7 @@ function [net,tr,accuracyTotal,accuracyTeste] = subEspecieNeuralNetwork(input, t
 % INDICAR: Funcoes de ativacao das camadas escondidas e de saida: {'purelin', 'logsig', 'tansig'}
 % INDICAR: Divisao dos exemplos pelos conjuntos de treino, validacao e teste
 
-net = feedforwardnet([2 10],'trainlm');
+net = feedforwardnet([2 10],'trainrp');
 
 net.layers{2}.transferFcn = 'tansig'; %this resets trainParam !
 
