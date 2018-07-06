@@ -14,6 +14,8 @@ net.divideParam.trainRatio = 0.7;
 net.divideParam.valRatio = 0.15;
 net.divideParam.testRatio = 0.15;
 
+net.trainParam.max_fail = 10;
+
 
 % COMPLETAR A RESTANTE CONFIGURACAO
 
