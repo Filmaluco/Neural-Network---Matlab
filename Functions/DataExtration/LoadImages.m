@@ -1,4 +1,4 @@
-function imagens = GetStructsFromDir(PATH, scale)
+function imagens = LoadImages(PATH, scale)
 
  myFolder = PATH;
  
@@ -20,8 +20,8 @@ for k = 1:length(jpegFiles)
     imagens(k).subEspecie = 'Not Defined';
     imagens(k).path = pathToFile;
     imagens(k).matriz = ConverterImagemParaMatrizBinaria(pathToFile, scale);
-    imagens(k).codigoEspecie = [0 0 0];
-    imagens(k).codigoSubEspecie = [0 0 0];
+    imagens(k).codigoEspecie = 0;
+    imagens(k).codigoSubEspecie = 0;
  
  
 end
