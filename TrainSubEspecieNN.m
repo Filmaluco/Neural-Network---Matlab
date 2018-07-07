@@ -21,7 +21,7 @@ nstart = tic;
 cnn_extration = toc(nstart);
 %view(redeNeuronal);
 %disp(data)
-
+writeTest(2,10,'radbasn',data.trainFcn,strcat(data.divideFcn,' =(0.4,0.4,0.2)'),cnn_extration,'fitnet',pTotal,pTeste);
 timers = {data_extration;cnn_extration};
 precision = {pTotal; pTeste};
 
