@@ -46,6 +46,7 @@ end
 
 % --- Executes just before RNFolhas is made visible.
 function RNFolhas_OpeningFcn(hObject, eventdata, handles, varargin)
+addpath(genpath('./Functions'));
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -54,6 +55,22 @@ function RNFolhas_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for RNFolhas
 handles.output = hObject;
+
+%Variables
+handles.scale = 100;
+handles.path_to_files = './Tema 1 - RN\'; 
+handles.data_file = '.\Tema 1 - RN\ClassificaçãoFolhas.xlsx';
+
+%Train Variables
+handles.currentTrainNN = 'EMPTY';
+handles.trainDataset = './Tema 1 - RN\Folhas_1';
+
+%Simulation Variables
+handles.currentSimulationNN = 'EMPTY';
+
+%Classificaion Variable
+handles.currentClassificationNN = 'EMPTY';
+
 
 % Update handles structure
 guidata(hObject, handles);
@@ -198,6 +215,38 @@ function bt_trainNN_Callback(hObject, eventdata, handles)
 % hObject    handle to bt_trainNN (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+%Loaded from GUI
+all_topologias = get(handles.pop_topologia,'String');
+NNparam.topologia = all_topologias(get(handles.pop_topologia,'Value'),:);
+NNparam.topologia = NNparam.topologia{1,1};
+
+
+all_fAtivacao = get(handles.pop_fAtivacao,'String');
+NNparam.fAtivacao = all_fAtivacao(get(handles.pop_fAtivacao,'Value'),:);
+NNparam.fAtivacao = NNparam.fAtivacao{1,1};
+
+all_fTreino = get(handles.pop_fTreino,'String');
+NNparam.fTreino = all_fTreino(get(handles.pop_fTreino,'Value'),:);
+NNparam.fTreino = NNparam.fTreino{1,1};
+
+%Default param
+NNparam.neuronios = 10;
+NNparam.trainRatio = 0.7;
+NNparam.valRatio = 0.15;
+NNparam.testRatio = 0.15;
+NNparam.max_fail = 10;
+
+imagens = LoadImages(handles.trainDataset, handles.scale);
+imagens = UpdateImages(imagens,handles.data_file, handles.scale);
+    %- Input and Output Generation
+input = inputImages(imagens);
+target = targetCodigoEspecie(imagens);
+
+[currentTrainNN data pTotal pTeste] = especieNeuralNetwork(NNparam, input, target);
+%view(redeNeuronal);
+
+
 
 
 % --- Executes on button press in pushbutton3.
