@@ -243,9 +243,7 @@ imagens = UpdateImages(imagens,handles.data_file, handles.scale);
 input = inputImages(imagens);
 target = targetCodigoEspecie(imagens);
 
-[currentTrainNN data pTotal pTeste] = especieNeuralNetwork(NNparam, input, target);
-
-handles.currentTrainNN = currentTrainNN;
+[handles.currentTrainNN data pTotal pTeste] = especieNeuralNetwork(NNparam, input, target);
 
 set(handles.txt_pTotal, 'String', pTotal);
 set(handles.txt_pTeste, 'String', pTeste);
@@ -310,16 +308,12 @@ function bt_saveNN_Callback(hObject, eventdata, handles)
 if strcmp(handles.currentTrainNN, 'EMPTY') == 1
    errordlg('Por favor treine uma rede primeiro','NN not found');
 else 
-    old_dir = pwd;
     cd (handles.path_to_files);
-    nr_files=dir(['*.mat']);
-    nr_files=size(nr_files,1);
-    nr_files=num2str(nr_files);
-    name = {['NN', nr_files]};
-    name = name{1,1};
-    NN = handles.currentTrainNN;
-    save(name,'NN');
-    cd (old_dir);
+    nr_files=dir([handles.path_to_files '/*.mat'])
+    nr_files=size(nr_files,1)
+    nr_files=num2str(
+    name = {['NN', nr_files, '.mat' ]}
+    save(name, 'handles.currentTrainNN')
 end
 
 
