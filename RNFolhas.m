@@ -70,6 +70,7 @@ handles.currentSimulationNN = 'EMPTY';
 
 %Classificaion Variable
 handles.currentClassificationNN = 'EMPTY';
+handles.currentImage = 'EMPTY';
 
 
 % Update handles structure
@@ -102,6 +103,14 @@ function bt_loadImage_Callback(hObject, eventdata, handles)
 % hObject    handle to bt_loadImage (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+if strcmp(handles.currentClassificationNN, 'EMPTY') == 1
+   errordlg('Por favor carregue uma rede primeiro','NN not found');
+else 
+   %efetuar agora 
+end
+
+
 
 
 % --- Executes on selection change in popupmenu1.
@@ -162,6 +171,14 @@ function bt_simNN_Callback(hObject, eventdata, handles)
 % hObject    handle to bt_simNN (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+
+if strcmp(handles.currentSimulationNN, 'EMPTY') == 1
+   errordlg('Por favor carregue uma rede primeiro','NN not found');
+else 
+   %efetuar agora 
+end
 
 
 % --- Executes on selection change in pop_topologia.
@@ -328,6 +345,12 @@ function bt_class_Callback(hObject, eventdata, handles)
 % hObject    handle to bt_class (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+if strcmp(handles.currentImage, 'EMPTY') == 1
+   errordlg('Por favor carregue uma imagem primeiro','NN not found');
+else 
+   %efetuar agora 
+end
 
 
 % --- Executes during object creation, after setting all properties.
