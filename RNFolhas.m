@@ -261,8 +261,8 @@ else
     
     set(handles.text19, 'String', certas);
     set(handles.text20, 'String', erradas);
-    set(handles.text21, 'String', certas/count);
-    set(handles.text22, 'String', erradas/count);
+    set(handles.text21, 'String', (certas/count)*100);
+    set(handles.text22, 'String', (erradas/count)*100);
     
     set(handles.figure1, 'pointer', 'arrow')
     
