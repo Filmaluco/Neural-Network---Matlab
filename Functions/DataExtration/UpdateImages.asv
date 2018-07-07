@@ -11,16 +11,21 @@ all_species = txt(:,1);
 all_subSpecies = txt(:,2);
 all_subSpecies = txt(:,2);
 species = unique(all_species);
+species = unique(all_species);
+subSpecies = unique(all_subSpecies);
 subSpecies = unique(all_subSpecies);
 
+
+
 nr_species = size(species);
-nr_subSpecies = size(subSpecies);
+nr_species = size(species);
+nr_subSpecies = size(subSpecies); 
 
 
 nr_species = nr_species(1,1);
-
+nr_species = nr_species(1,1);
 nr_subSpecies = nr_subSpecies(1,1);
-
+nr_subSpecies = nr_subSpecies(1,1);
 
 
 %empty_code_specie = zeros(nr_species);
@@ -39,24 +44,29 @@ empty_code_subSpecies = zeros(1,nr_subSpecies);
         tempCodesubSpecie = empty_code_subSpecies;
 
 
-            if raw{i,1} == imagens(k).id
+            if raw{i,1} == imagens(k).id 
+            imagens(k).especie = raw{i,2};
             imagens(k).especie = raw{i,2};
             imagens(k).subEspecie = raw{i,3};
+            imagens(k).subEspecie = raw{i,3};
+
 
                 for j=1 : nr_species
+
+                % disp('Especie nr '); disp(j); disp(':'); disp(species(j));
+                % disp('Especie nr '); disp(j); disp(':'); disp(species(j));
                     if strcmp(imagens(k).especie, species(j)) == 1
-                        tempCodeSpecie(1,j) = 1;
-                        imagens(k).codigoEspecie = tempCodeSpecie;
+                    tempCodeSpecie(1,j) = 1;
+                    tempCodeSpecie(1,j) = 1;
+
+                    imagens(k).codigoEspecie = tempCodeSpecie;
+                    imagens(k).codigoEspecie = tempCodeSpecie;
+                    imagens(k).codigoSubEspecie = tempCodesubSpecie;
+                    imagens(k).codigoSubEspecie = tempCodesubSpecie;
                     end
-                end
-                
-                for j=1 : nr_subSpecies
-                    if strcmp(imagens(k).subEspecie, subSpecies(j)) == 1
-                        tempCodesubSpecie(1,j) = 1;
-                        imagens(k).codigoSubEspecie = tempCodesubSpecie;
-                    end
-                end
+                end 
             end
         end
     end
 end
+

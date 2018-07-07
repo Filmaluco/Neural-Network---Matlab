@@ -124,7 +124,7 @@ if strcmp(handles.currentClassificationNN, 'EMPTY') == 1
 else 
     [file, path]=uigetfile('*.jpg*','Specify an image file','on');
      image=fullfile(path,file);
-     imshow(image);
+     imshow(image); %not even calling axes and it works WTF????
 end
 
 
