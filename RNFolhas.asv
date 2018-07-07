@@ -58,12 +58,12 @@ handles.output = hObject;
 
 %Variables
 handles.scale = 100;
-handles.path_to_files = './Tema 1 - RN\'; 
+handles.path_to_files = './Tema 1 - RN/'; 
 handles.data_file = '.\Tema 1 - RN\ClassificaçãoFolhas.xlsx';
 
 %Train Variables
 handles.currentTrainNN = 'EMPTY';
-handles.trainDataset = './Tema 1 - RN\Folhas_1';
+handles.trainDataset = './Tema 1 - RN\Folhas_2';
 
 %Simulation Variables
 handles.currentSimulationNN = 'EMPTY';
@@ -72,6 +72,7 @@ handles.currentSimulationNN = 'EMPTY';
 handles.currentClassificationNN = 'EMPTY';
 handles.currentImage = 'EMPTY';
 
+handles.dataTable.ColumnName = {'Result','Target'};
 
 % Update handles structure
 guidata(hObject, handles);
@@ -97,8 +98,8 @@ function bt_useNN_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 [file,path] = uigetfile('*.mat');
- NN = load([path file]);
 try
+    NN = load([path file]);
    NN = NN.NN;
 catch exception
    NN = 'EMPTY';
@@ -160,6 +161,19 @@ function bt_loadNN_Callback(hObject, eventdata, handles)
 % hObject    handle to bt_loadNN (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+[file,path] = uigetfile('*.mat');
+try
+   NN = load([path file]);
+   NN = NN.NN;
+catch exception
+   NN = 'EMPTY';
+   errordlg('Por favor carregue uma rede neuronal','NN not found');
+end
+
+if strcmp(NN, 'EMPTY') ~= 1
+    handles.currentSimulationNN = NN;
+    guidata(hObject, handles);
+end
 
 
 % --- Executes on selection change in pop_dataset.
@@ -190,7 +204,46 @@ function bt_simNN_Callback(hObject, eventdata, handles)
 % hObject    handle to bt_simNN (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+if strcmp(handles.currentSimulationNN, 'EMPTY') == 1
+   errordlg('Por favor carregue uma rede primeiro','NN not found');
+else 
+    
+    set(handles.figure1, 'pointer', 'watch')
+    drawnow;
 
+    
+    NN = handles.currentSimulationNN;
+    
+    selectedDataset = get(handles.pop_dataset,'String');
+    selectedDataset = selectedDataset(get(handles.pop_dataset,'Value'),:);
+    
+    selectedDataset = strcat(handles.path_to_files, selectedDataset);
+    
+    imagens = LoadImages(selectedDataset{1,1}, handles.scale);
+    imagens = UpdateImages(imagens,handles.data_file, handles.scale);
+    %- Input and Output Generation
+    input = inputImages(imagens);
+    target = targetCodigoEspecie(imagens)
+    
+    output = NN(input);
+    
+    [species subSpecies codeSpecies codeSubEspecies] = ClassificationExtration(handles.data_file);
+    
+    count = size(input);
+    count = count(1,2);
+   
+    %output = nnOutputToSpecieCode (output, species);
+    for i = 1 : count
+        str = nnOutputToSpecieCode(output(:,i), species);
+    d{i, 1} = str{1,1};
+        str = nnOutputToSpecieCode(target(:,i), species);
+    d{i, 2} = str{1,1};
+    
+    end
+    handles.dataTable.Data = d;
+    set(handles.figure1, 'pointer', 'arrow')
+    
+end
 
 
 if strcmp(handles.currentSimulationNN, 'EMPTY') == 1
@@ -253,6 +306,11 @@ function bt_trainNN_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %Loaded from GUI
+
+set(handles.figure1, 'pointer', 'watch')
+drawnow;
+
+
 all_topologias = get(handles.pop_topologia,'String');
 NNparam.topologia = all_topologias(get(handles.pop_topologia,'Value'),:);
 NNparam.topologia = NNparam.topologia{1,1};
@@ -285,6 +343,9 @@ handles.currentTrainNN = currentTrainNN;
 
 set(handles.txt_pTotal, 'String', pTotal);
 set(handles.txt_pTeste, 'String', pTeste);
+
+% your computation
+set(handles.figure1, 'pointer', 'arrow')
 
 % Update handles structure
 guidata(hObject, handles);
@@ -370,8 +431,12 @@ if strcmp(handles.currentImage, 'EMPTY') == 1
 else 
    [species subSpecies codeSpecies codeSubEspecies] = ClassificationExtration(handles.data_file);
    net = handles.currentClassificationNN;
-   input = handles.currentImage(:)   
+   input = handles.currentImage(:);   
    output = net(input)
+   output = nnOutputToSpecieCode(output, species);
+   set(handles.edit1, 'String', output);
+   
+   
    
 end
 
