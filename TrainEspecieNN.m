@@ -2,7 +2,7 @@ function [redeNeuronal data timers precision input target imagens] = TrainEspeci
 addpath(genpath('./Functions'));
 
 %override for test's
-path_to_files = './Tema 1 - RN\Folhas_1';
+path_to_files = './Tema 1 - RN\Folhas_2';
 scale = 175;
 data_file = '.\Tema 1 - RN\ClassificaçãoFolhas.xlsx';
     

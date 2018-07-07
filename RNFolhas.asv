@@ -63,7 +63,7 @@ handles.data_file = '.\Tema 1 - RN\ClassificaçãoFolhas.xlsx';
 
 %Train Variables
 handles.currentTrainNN = 'EMPTY';
-handles.trainDataset = './Tema 1 - RN\Folhas_2';
+handles.trainDataset = './Tema 1 - RN\Folhas_1';
 
 %Simulation Variables
 handles.currentSimulationNN = 'EMPTY';
@@ -253,11 +253,6 @@ function bt_trainNN_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %Loaded from GUI
-
-set(handles.figure1, 'pointer', 'watch')
-drawnow;
-
-
 all_topologias = get(handles.pop_topologia,'String');
 NNparam.topologia = all_topologias(get(handles.pop_topologia,'Value'),:);
 NNparam.topologia = NNparam.topologia{1,1};
@@ -290,9 +285,6 @@ handles.currentTrainNN = currentTrainNN;
 
 set(handles.txt_pTotal, 'String', pTotal);
 set(handles.txt_pTeste, 'String', pTeste);
-
-% your computation
-set(handles.figure1, 'pointer', 'arrow')
 
 % Update handles structure
 guidata(hObject, handles);
@@ -378,12 +370,8 @@ if strcmp(handles.currentImage, 'EMPTY') == 1
 else 
    [species subSpecies codeSpecies codeSubEspecies] = ClassificationExtration(handles.data_file);
    net = handles.currentClassificationNN;
-   input = handles.currentImage(:);   
+   input = handles.currentImage(:)   
    output = net(input)
-   output = nnOutputToSpecieCode(output, species);
-   set(handles.edit1, 'String', output);
-   
-   
    
 end
 

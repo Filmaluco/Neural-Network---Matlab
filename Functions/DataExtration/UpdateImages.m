@@ -9,7 +9,6 @@ nr_linhas_excel = b(1);
 
 all_species = txt(:,1);
 all_subSpecies = txt(:,2);
-all_subSpecies = txt(:,2);
 species = unique(all_species);
 subSpecies = unique(all_subSpecies);
 
