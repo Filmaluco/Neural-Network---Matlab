@@ -22,7 +22,7 @@ function varargout = RNFolhas(varargin)
 
 % Edit the above text to modify the response to help RNFolhas
 
-% Last Modified by GUIDE v2.5 05-Jul-2018 19:12:33
+% Last Modified by GUIDE v2.5 07-Jul-2018 17:22:05
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -46,6 +46,7 @@ end
 
 % --- Executes just before RNFolhas is made visible.
 function RNFolhas_OpeningFcn(hObject, eventdata, handles, varargin)
+addpath(genpath('./Functions'));
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -54,6 +55,22 @@ function RNFolhas_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for RNFolhas
 handles.output = hObject;
+
+%Variables
+handles.scale = 100;
+handles.path_to_files = './Tema 1 - RN\'; 
+handles.data_file = '.\Tema 1 - RN\ClassificaçãoFolhas.xlsx';
+
+%Train Variables
+handles.currentTrainNN = 'EMPTY';
+handles.trainDataset = './Tema 1 - RN\Folhas_1';
+
+%Simulation Variables
+handles.currentSimulationNN = 'EMPTY';
+
+%Classificaion Variable
+handles.currentClassificationNN = 'EMPTY';
+
 
 % Update handles structure
 guidata(hObject, handles);
@@ -73,16 +90,16 @@ function varargout = RNFolhas_OutputFcn(hObject, eventdata, handles)
 varargout{1} = handles.output;
 
 
-% --- Executes on button press in pushbutton5.
-function pushbutton5_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton5 (see GCBO)
+% --- Executes on button press in bt_useNN.
+function bt_useNN_Callback(hObject, eventdata, handles)
+% hObject    handle to bt_useNN (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton6.
-function pushbutton6_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton6 (see GCBO)
+% --- Executes on button press in bt_loadImage.
+function bt_loadImage_Callback(hObject, eventdata, handles)
+% hObject    handle to bt_loadImage (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
@@ -110,26 +127,26 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in pushbutton4.
-function pushbutton4_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton4 (see GCBO)
+% --- Executes on button press in bt_loadNN.
+function bt_loadNN_Callback(hObject, eventdata, handles)
+% hObject    handle to bt_loadNN (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on selection change in popupmenu5.
-function popupmenu5_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu5 (see GCBO)
+% --- Executes on selection change in pop_dataset.
+function pop_dataset_Callback(hObject, eventdata, handles)
+% hObject    handle to pop_dataset (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu5 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu5
+% Hints: contents = cellstr(get(hObject,'String')) returns pop_dataset contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from pop_dataset
 
 
 % --- Executes during object creation, after setting all properties.
-function popupmenu5_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to popupmenu5 (see GCBO)
+function pop_dataset_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to pop_dataset (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -140,26 +157,26 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in pushbutton7.
-function pushbutton7_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton7 (see GCBO)
+% --- Executes on button press in bt_simNN.
+function bt_simNN_Callback(hObject, eventdata, handles)
+% hObject    handle to bt_simNN (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on selection change in popupmenu2.
-function popupmenu2_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu2 (see GCBO)
+% --- Executes on selection change in pop_topologia.
+function pop_topologia_Callback(hObject, eventdata, handles)
+% hObject    handle to pop_topologia (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu2 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu2
+% Hints: contents = cellstr(get(hObject,'String')) returns pop_topologia contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from pop_topologia
 
 
 % --- Executes during object creation, after setting all properties.
-function popupmenu2_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to popupmenu2 (see GCBO)
+function pop_topologia_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to pop_topologia (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -170,19 +187,19 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on selection change in popupmenu4.
-function popupmenu4_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu4 (see GCBO)
+% --- Executes on selection change in pop_fAtivacao.
+function pop_fAtivacao_Callback(hObject, eventdata, handles)
+% hObject    handle to pop_fAtivacao (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu4 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu4
+% Hints: contents = cellstr(get(hObject,'String')) returns pop_fAtivacao contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from pop_fAtivacao
 
 
 % --- Executes during object creation, after setting all properties.
-function popupmenu4_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to popupmenu4 (see GCBO)
+function pop_fAtivacao_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to pop_fAtivacao (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -193,11 +210,47 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in pushbutton2.
-function pushbutton2_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton2 (see GCBO)
+% --- Executes on button press in bt_trainNN.
+function bt_trainNN_Callback(hObject, eventdata, handles)
+% hObject    handle to bt_trainNN (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+%Loaded from GUI
+all_topologias = get(handles.pop_topologia,'String');
+NNparam.topologia = all_topologias(get(handles.pop_topologia,'Value'),:);
+NNparam.topologia = NNparam.topologia{1,1};
+
+
+all_fAtivacao = get(handles.pop_fAtivacao,'String');
+NNparam.fAtivacao = all_fAtivacao(get(handles.pop_fAtivacao,'Value'),:);
+NNparam.fAtivacao = NNparam.fAtivacao{1,1};
+
+all_fTreino = get(handles.pop_fTreino,'String');
+NNparam.fTreino = all_fTreino(get(handles.pop_fTreino,'Value'),:);
+NNparam.fTreino = NNparam.fTreino{1,1};
+
+%Default param
+NNparam.neuronios = 10;
+NNparam.trainRatio = 0.7;
+NNparam.valRatio = 0.15;
+NNparam.testRatio = 0.15;
+NNparam.max_fail = 10;
+
+imagens = LoadImages(handles.trainDataset, handles.scale);
+imagens = UpdateImages(imagens,handles.data_file, handles.scale);
+    %- Input and Output Generation
+input = inputImages(imagens);
+target = targetCodigoEspecie(imagens);
+
+[handles.currentTrainNN data pTotal pTeste] = especieNeuralNetwork(NNparam, input, target);
+
+set(handles.txt_pTotal, 'String', pTotal);
+set(handles.txt_pTeste, 'String', pTeste);
+
+%view(redeNeuronal);
+
+
 
 
 % --- Executes on button press in pushbutton3.
@@ -219,3 +272,40 @@ function edit2_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to edit2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes on selection change in pop_fTreino.
+function pop_fTreino_Callback(hObject, eventdata, handles)
+% hObject    handle to pop_fTreino (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns pop_fTreino contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from pop_fTreino
+
+
+% --- Executes during object creation, after setting all properties.
+function pop_fTreino_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to pop_fTreino (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in bt_saveNN.
+function bt_saveNN_Callback(hObject, eventdata, handles)
+% hObject    handle to bt_saveNN (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in bt_class.
+function bt_class_Callback(hObject, eventdata, handles)
+% hObject    handle to bt_class (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)

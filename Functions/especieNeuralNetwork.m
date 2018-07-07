@@ -1,20 +1,31 @@
-function [net,tr,accuracyTotal,accuracyTeste] = especieNeuralNetwork(input, target)
+function [net,tr,accuracyTotal,accuracyTeste] = especieNeuralNetwork(NNparam,input, target)
 % CRIAR E CONFIGURAR A REDE NEURONAL
 % INDICAR: N? camadas escondidas e nos por camada escondida
 % INDICAR: Funcao de treino: {'trainlm', 'trainbfg', traingd'}
 % INDICAR: Funcoes de ativacao das camadas escondidas e de saida: {'purelin', 'logsig', 'tansig'}
 % INDICAR: Divisao dos exemplos pelos conjuntos de treino, validacao e teste
 
-net = feedforwardnet(100,'trainrp');
+switch NNparam.topologia
+    case 'feedfowardnet' 
+        net = feedforwardnet(NNparam.neuronios, NNparam.fTreino);    
+    case 'patternnet' 
+        net = patternnet(NNparam.neuronios, NNparam.fTreino);
+    case 'cascadeforwardnet' 
+        net = cascadeforwardnet(NNparam.neuronios, NNparam.fTreino);
+    case 'fitnet' 
+        net = fitnet(NNparam.neuronios, NNparam.fTreino);       
+end
 
-net.layers{2}.transferFcn = 'tansig';
+
+
+net.layers{2}.transferFcn = NNparam.fAtivacao;
 
 net.divideFcn = 'divideblock';
-net.divideParam.trainRatio = 0.7;
-net.divideParam.valRatio = 0.15;
-net.divideParam.testRatio = 0.15;
+net.divideParam.trainRatio = NNparam.trainRatio;
+net.divideParam.valRatio = NNparam.valRatio;
+net.divideParam.testRatio = NNparam.testRatio;
 
-net.trainParam.max_fail = 10;
+net.trainParam.max_fail = NNparam.max_fail;
 
 
 % COMPLETAR A RESTANTE CONFIGURACAO
