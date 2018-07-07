@@ -58,7 +58,7 @@ handles.output = hObject;
 
 %Variables
 handles.scale = 100;
-handles.path_to_files = './Tema 1 - RN\'; 
+handles.path_to_files = './Tema 1 - RN/'; 
 handles.data_file = '.\Tema 1 - RN\ClassificaçãoFolhas.xlsx';
 
 %Train Variables
@@ -72,6 +72,7 @@ handles.currentSimulationNN = 'EMPTY';
 handles.currentClassificationNN = 'EMPTY';
 handles.currentImage = 'EMPTY';
 
+handles.dataTable.ColumnName = {'Result','Target'};
 
 % Update handles structure
 guidata(hObject, handles);
@@ -97,8 +98,8 @@ function bt_useNN_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 [file,path] = uigetfile('*.mat');
- NN = load([path file]);
 try
+    NN = load([path file]);
    NN = NN.NN;
 catch exception
    NN = 'EMPTY';
@@ -160,6 +161,19 @@ function bt_loadNN_Callback(hObject, eventdata, handles)
 % hObject    handle to bt_loadNN (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+[file,path] = uigetfile('*.mat');
+try
+   NN = load([path file]);
+   NN = NN.NN;
+catch exception
+   NN = 'EMPTY';
+   errordlg('Por favor carregue uma rede neuronal','NN not found');
+end
+
+if strcmp(NN, 'EMPTY') ~= 1
+    handles.currentSimulationNN = NN;
+    guidata(hObject, handles);
+end
 
 
 % --- Executes on selection change in pop_dataset.
@@ -190,7 +204,69 @@ function bt_simNN_Callback(hObject, eventdata, handles)
 % hObject    handle to bt_simNN (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+if strcmp(handles.currentSimulationNN, 'EMPTY') == 1
+   errordlg('Por favor carregue uma rede primeiro','NN not found');
+else 
+    
+    set(handles.figure1, 'pointer', 'watch')
+    drawnow;
 
+    
+    NN = handles.currentSimulationNN;
+    
+    selectedDataset = get(handles.pop_dataset,'String');
+    selectedDataset = selectedDataset(get(handles.pop_dataset,'Value'),:);
+    
+    selectedDataset = strcat(handles.path_to_files, selectedDataset);
+    
+    imagens = LoadImages(selectedDataset{1,1}, handles.scale);
+    imagens = UpdateImages(imagens,handles.data_file, handles.scale);
+    %- Input and Output Generation
+    input = inputImages(imagens);
+    target = targetCodigoEspecie(imagens);
+    
+    output = NN(input);
+    
+    [species subSpecies codeSpecies codeSubEspecies] = ClassificationExtration(handles.data_file);
+    
+    count = size(input);
+    count = count(1,2);
+    
+    certas = 0;
+    erradas = 0;
+    
+    colergen = @(color,text) ['<html><table border=0 width=400 bgcolor=',color,'><TR><TD>',text,'</TD></TR> </table></html>'];
+   
+    %output = nnOutputToSpecieCode (output, species);
+    for i = 1 : count
+        str1 = nnOutputToSpecieCode(output(:,i), species);
+        str2 = nnOutputToSpecieCode(target(:,i), species);
+    
+        
+        if strcmp(str1, str2) == 1
+             d{i, 1} = colergen('#9ACD32',str1{1,1});
+             d{i, 2} = colergen('#9ACD32',str2{1,1}); 
+             certas = certas + 1;
+             
+        else
+            d{i, 1} = colergen('#FF4500',str1{1,1});
+            d{i, 2} = colergen('#FF4500',str2{1,1});
+            erradas = erradas + 1;
+        end
+
+    
+    end
+    handles.dataTable.Data = d;
+    
+    
+    set(handles.text19, 'String', certas);
+    set(handles.text20, 'String', erradas);
+    set(handles.text21, 'String', certas/count);
+    set(handles.text22, 'String', erradas/count);
+    
+    set(handles.figure1, 'pointer', 'arrow')
+    
+end
 
 
 if strcmp(handles.currentSimulationNN, 'EMPTY') == 1
