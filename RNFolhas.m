@@ -243,7 +243,11 @@ imagens = UpdateImages(imagens,handles.data_file, handles.scale);
 input = inputImages(imagens);
 target = targetCodigoEspecie(imagens);
 
-[currentTrainNN data pTotal pTeste] = especieNeuralNetwork(NNparam, input, target);
+[handles.currentTrainNN data pTotal pTeste] = especieNeuralNetwork(NNparam, input, target);
+
+set(handles.txt_pTotal, 'String', pTotal);
+set(handles.txt_pTeste, 'String', pTeste);
+
 %view(redeNeuronal);
 
 

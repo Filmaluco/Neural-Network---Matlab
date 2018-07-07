@@ -21,11 +21,11 @@ end
 net.layers{2}.transferFcn = NNparam.fAtivacao;
 
 net.divideFcn = 'divideblock';
-net.divideParam.trainRatio = 0.7;
-net.divideParam.valRatio = 0.15;
-net.divideParam.testRatio = 0.15;
+net.divideParam.trainRatio = NNparam.trainRatio;
+net.divideParam.valRatio = NNparam.valRatio;
+net.divideParam.testRatio = NNparam.testRatio;
 
-net.trainParam.max_fail = 10;
+net.trainParam.max_fail = NNparam.max_fail;
 
 
 % COMPLETAR A RESTANTE CONFIGURACAO
