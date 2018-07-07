@@ -96,6 +96,21 @@ function bt_useNN_Callback(hObject, eventdata, handles)
 % hObject    handle to bt_useNN (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+[file,path] = uigetfile('*.mat');
+ NN = load([path file]);
+try
+   NN = NN.NN;
+catch exception
+   NN = 'EMPTY';
+   errordlg('Por favor carregue uma rede neuronal','NN not found');
+end
+
+if strcmp(NN, 'EMPTY') ~= 1
+    handles.currentClassificationNN = NN;
+    guidata(hObject, handles);
+end
+
+
 
 
 % --- Executes on button press in bt_loadImage.
@@ -107,7 +122,9 @@ function bt_loadImage_Callback(hObject, eventdata, handles)
 if strcmp(handles.currentClassificationNN, 'EMPTY') == 1
    errordlg('Por favor carregue uma rede primeiro','NN not found');
 else 
-   %efetuar agora 
+    [file, path]=uigetfile('*.jpg*','Specify an image file','on');
+     image=fullfile(path,file);
+     imshow(image);
 end
 
 
