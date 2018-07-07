@@ -3,7 +3,7 @@ addpath(genpath('./Functions'));
 
 %override for test's
 path_to_files = './Tema 1 - RN\Folhas_1';
-scale = 175;
+scale = 100;
 data_file = '.\Tema 1 - RN\ClassificaçãoFolhas.xlsx';
     
 %Data Extration -----------------------------------------------------------
@@ -18,7 +18,7 @@ data_extration = toc(tstart); %timer
 
 %Run Especie NN -----------------------------------------------------------
 nstart = tic;
-[redeNeuronal data pTotal pTeste] = EspecieNeuralNetwork(input, target);
+[redeNeuronal data pTotal pTeste] = especieNeuralNetwork(input, target);
 cnn_extration = toc(nstart);
 %view(redeNeuronal);
 %disp(data)
