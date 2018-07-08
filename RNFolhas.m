@@ -22,7 +22,7 @@ function varargout = RNFolhas(varargin)
 
 % Edit the above text to modify the response to help RNFolhas
 
-% Last Modified by GUIDE v2.5 08-Jul-2018 15:20:07
+% Last Modified by GUIDE v2.5 08-Jul-2018 15:37:33
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -47,6 +47,7 @@ end
 % --- Executes just before RNFolhas is made visible.
 function RNFolhas_OpeningFcn(hObject, eventdata, handles, varargin)
 addpath(genpath('./Functions'));
+addpath(genpath('./Excell and Manipulation Function'));
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -66,6 +67,14 @@ handles.currentTrainNN = 'EMPTY';
 
 %Simulation Variables
 handles.currentSimulationNN = 'EMPTY';
+handles.hasData = 0;
+handles.dataSetUsed = 'EMPTY';
+handles.SimulationUsed = 'EMPTY';
+handles.nrFolhas = 0;
+handles.especiesCertas = 0;
+handles.subEspeciesCertas = 0;
+handles.time = 0;
+
 
 %Classificaion Variable
 handles.currentClassificationNN = 'EMPTY';
@@ -171,9 +180,9 @@ end
 
 if strcmp(NN, 'EMPTY') ~= 1
     handles.currentSimulationNN = NN;
-    guidata(hObject, handles);
 end
-
+    handles.hasData = 0;
+    guidata(hObject, handles);
 
 % --- Executes on selection change in pop_dataset.
 function pop_dataset_Callback(hObject, eventdata, handles)
@@ -205,31 +214,35 @@ function bt_simNN_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 if strcmp(handles.currentSimulationNN, 'EMPTY') == 1
    errordlg('Por favor carregue uma rede primeiro','NN not found');
+   handles.hasData = 0;
 else 
     
     set(handles.figure1, 'pointer', 'watch')
     drawnow;
-
-    
+    handles.hasData = 1; 
+   
     NN = handles.currentSimulationNN;
+    handles.SimulationUsed = NN;
     
     selectedDataset = get(handles.pop_dataset,'String');
     selectedDataset = selectedDataset(get(handles.pop_dataset,'Value'),:);
     
     selectedDataset = strcat(handles.path_to_files, selectedDataset);
+    handles.dataSetUsed = selectedDataset;
     
     imagens = LoadImages(selectedDataset{1,1}, handles.scale);
     imagens = UpdateImages(imagens,handles.data_file, handles.scale);
     %- Input and Output Generation
     input = inputfromImageExtration(imagens, handles.scale);
     target = targetCodigoSubEspecie(imagens);
-    
+    tstart = tic;%timer
     output = NN(input);
-    
+    handles.time = toc(tstart);
     [species subSpecies codeSpecies codeSubEspecies connection] = ClassificationExtration(handles.data_file);
     
     count = size(input);
     count = count(1,2);
+    handles.nrFolhas = count;
     
     Ecertas = 0;
     Eerradas = 0;
@@ -269,6 +282,9 @@ else
 
     
     end
+    
+    handles.especiesCertas = Ecertas;
+    handles.subEspeciesCertas = Subcertas;
   
     %display(d);
     handles.dataTable.Data = d;
@@ -285,6 +301,8 @@ else
     
     
 end
+
+guidata(hObject, handles);
 
 
 
@@ -575,3 +593,28 @@ function slider_layers_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
+
+
+% --- Executes on button press in btn_save.
+function btn_save_Callback(hObject, eventdata, handles)
+% hObject    handle to btn_save (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+if handles.hasData == 0
+   errordlg('Verifique se os dados existem ou se ja foram gravados','NN not found');
+else 
+    handles.hasData = 0;
+    savedData.dataSetUsed = handles.dataSetUsed;
+    savedData.SimulationUsed = handles.SimulationUsed;
+    savedData.nrFolhas = handles.nrFolhas;
+    savedData.especiesCertas = handles.especiesCertas;
+    savedData.subEspeciesCertas = handles.subEspeciesCertas;
+    savedData.time = handles.time;
+
+    writeData(savedData);
+end
+
+
+guidata(hObject, handles);
+

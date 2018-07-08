@@ -1,5 +1,4 @@
 ESTRETURA PARA LER DATASET'S ---------------------------------------------------
-ESTRETURA DE RESULTADOS SIMULADOS DE UMA NN's ----------------------------------
 //refractor to dataset
 
 images(k).id
@@ -9,6 +8,16 @@ images(k).path
 images(k).matriz
 images(k).codigoEspecie
 images(k).codigoSubEspecie
+
+
+ESTRETURA DE RESULTADOS SIMULADOS DE UMA NN's ----------------------------------
+
+savedData.dataSetUsed
+savedData.SimulationUsed 
+savedData.nrFolhas
+savedData.especiesCertas
+savedData.subEspeciesCertas
+savedData.time
 
 
 ESTRETURA DE PARAMETROS TREINO PARA NN's ---------------------------------------
