@@ -22,7 +22,7 @@ function varargout = RNFolhas(varargin)
 
 % Edit the above text to modify the response to help RNFolhas
 
-% Last Modified by GUIDE v2.5 08-Jul-2018 02:16:18
+% Last Modified by GUIDE v2.5 08-Jul-2018 04:35:50
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -367,8 +367,8 @@ all_fTreino = get(handles.pop_fTreino,'String');
 NNparam.fTreino = all_fTreino(get(handles.pop_fTreino,'Value'),:);
 NNparam.fTreino = NNparam.fTreino{1,1};
 
-selectedDataset = get(handles.pop_dataset,'String');
-selectedDataset = selectedDataset(get(handles.pop_dataset,'Value'),:);
+selectedDataset = get(handles.pop_trainData,'String');
+selectedDataset = selectedDataset(get(handles.pop_trainData,'Value'),:);
 
 selectedDataset = strcat(handles.path_to_files, selectedDataset);
 
@@ -509,19 +509,19 @@ function imageDisplay_CreateFcn(hObject, eventdata, handles)
 % Hint: place code in OpeningFcn to populate imageDisplay
 
 
-% --- Executes on selection change in popupmenu8.
-function popupmenu8_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu8 (see GCBO)
+% --- Executes on selection change in pop_trainData.
+function pop_trainData_Callback(hObject, eventdata, handles)
+% hObject    handle to pop_trainData (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu8 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu8
+% Hints: contents = cellstr(get(hObject,'String')) returns pop_trainData contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from pop_trainData
 
 
 % --- Executes during object creation, after setting all properties.
-function popupmenu8_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to popupmenu8 (see GCBO)
+function pop_trainData_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to pop_trainData (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
