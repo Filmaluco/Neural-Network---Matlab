@@ -248,23 +248,23 @@ else
         if strcmp(RsubEspecie, TsubEspecie) == 1
              d{i, 2} = colergen('#9ACD32',RsubEspecie{1,1});
              d{i, 4} = colergen('#9ACD32',TsubEspecie{1,1}); 
-             Ecertas = Ecertas + 1;
+             Subcertas = Subcertas + 1;
              
         else
             d{i, 2} = colergen('#FF4500',RsubEspecie{1,1});
             d{i, 4} = colergen('#FF4500',TsubEspecie{1,1});
-            Eerradas = Eerradas + 1;
+            Suberradas = Suberradas + 1;
         end
         
         if strcmp(REspecie, TEspecie) == 1
              d{i, 1} = colergen('#9ACD32',REspecie{1,1});
              d{i, 3} = colergen('#9ACD32',TEspecie{1,1}); 
-             Subcertas = Subcertas + 1;
+             Ecertas = Ecertas + 1;
              
         else
             d{i, 1} = colergen('#FF4500',REspecie{1,1});
             d{i, 3} = colergen('#FF4500',TEspecie{1,1});
-            Suberradas = Suberradas + 1;
+            Eerradas = Eerradas + 1;
         end
 
     
@@ -272,12 +272,19 @@ else
     handles.dataTable.Data = d;
     
     
-    set(handles.text19, 'String', Subcertas);
-    set(handles.text20, 'String', Suberradas);
-    set(handles.text21, 'String', (Subcertas/count)*100);
-    set(handles.text22, 'String', (Suberradas/count)*100);
+    set(handles.text19, 'String', Ecertas);
+    set(handles.text20, 'String', Eerradas);
+    set(handles.text26, 'String', Subcertas);
+    set(handles.text27, 'String', Suberradas);
     
+    y = [Ecertas/count Eerradas/count ; Subcertas/count Suberradas/count ];
+    b = bar(handles.axes5,y);
+    set(gca,'xticklabel','Especie');
+    
+    
+    set(handles.text27, 'String', Suberradas);
     set(handles.figure1, 'pointer', 'arrow')
+    
     
 end
 
