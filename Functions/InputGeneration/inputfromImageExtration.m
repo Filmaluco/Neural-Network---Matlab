@@ -38,6 +38,7 @@ function output = inputfromImageExtration(imagens, scale)
             points = points(:);
             output(:,index) = points;
 
+
         end
     end
 end

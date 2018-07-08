@@ -57,7 +57,7 @@ addpath(genpath('./Functions'));
 handles.output = hObject;
 
 %Variables
-handles.scale = 200;
+handles.scale = 175;
 handles.path_to_files = './Tema 1 - RN/'; 
 handles.data_file = '.\Tema 1 - RN\ClassificaçãoFolhas.xlsx';
 
@@ -279,21 +279,11 @@ else
     
     y = [Ecertas/count Eerradas/count ; Subcertas/count Suberradas/count ];
     b = bar(handles.axes5,y);
-    set(gca,'xticklabel','Especie');
-    
-    
-    set(handles.text27, 'String', Suberradas);
     set(handles.figure1, 'pointer', 'arrow')
     
     
 end
 
-
-if strcmp(handles.currentSimulationNN, 'EMPTY') == 1
-   errordlg('Por favor carregue uma rede primeiro','NN not found');
-else 
-   %efetuar agora 
-end
 
 
 % --- Executes on selection change in pop_topologia.
@@ -373,7 +363,7 @@ selectedDataset = selectedDataset(get(handles.pop_trainData,'Value'),:);
 selectedDataset = strcat(handles.path_to_files, selectedDataset);
 
 %Default param
-NNparam.neuronios = 10;
+NNparam.neuronios = [2 100];
 NNparam.trainRatio = 0.7;
 NNparam.valRatio = 0.15;
 NNparam.testRatio = 0.15;
@@ -483,14 +473,15 @@ else
    
    %Image Extration of Features
    inputSize = net.inputs.size;
+   inputSize = inputSize{1,1};
+   
    
    points = detectHarrisFeatures(handles.currentImage);
-   points = points.selectStrongest(inputSize{1,1}).Location;
+    points = points.selectStrongest(inputSize/2).Location;
 
-    points = points(1:inputSize{1,1});
-    input(:,1) = points;
+    points = points(:)
             
-   output = net(input)
+   output = net(points)
     [REspecie RsubEspecie] = nnOutputToSpecieCode(output, connection);
    set(handles.edit1, 'String', REspecie);
    set(handles.edit2, 'String', RsubEspecie);
