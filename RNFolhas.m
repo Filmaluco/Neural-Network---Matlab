@@ -22,7 +22,7 @@ function varargout = RNFolhas(varargin)
 
 % Edit the above text to modify the response to help RNFolhas
 
-% Last Modified by GUIDE v2.5 08-Jul-2018 04:35:50
+% Last Modified by GUIDE v2.5 08-Jul-2018 15:20:07
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -364,8 +364,16 @@ selectedDataset = selectedDataset(get(handles.pop_trainData,'Value'),:);
 
 selectedDataset = strcat(handles.path_to_files, selectedDataset);
 
+hiddenLayers = get(handles.slider_layers,'Value');
+hiddenLayers = floor(hiddenLayers)
+neurons = get(handles.slider_neurons,'Value');
+neurons = floor(neurons)
+
+
+A(1:1,1:hiddenLayers) = neurons;
+
 %Default param
-NNparam.neuronios = [2 100];
+NNparam.neuronios = A;
 NNparam.trainRatio = 0.7;
 NNparam.valRatio = 0.15;
 NNparam.testRatio = 0.15;
@@ -522,4 +530,48 @@ function pop_trainData_CreateFcn(hObject, eventdata, handles)
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on slider movement.
+function slider_neurons_Callback(hObject, eventdata, handles)
+% hObject    handle to slider_neurons (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+set(handles.text33, 'String', floor(get(handles.slider_neurons,'Value')));
+
+% --- Executes during object creation, after setting all properties.
+function slider_neurons_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider_neurons (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on slider movement.
+function slider_layers_Callback(hObject, eventdata, handles)
+% hObject    handle to slider_layers (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+  set(handles.text32, 'String', floor(get(handles.slider_layers,'Value')));
+
+% --- Executes during object creation, after setting all properties.
+function slider_layers_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider_layers (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
