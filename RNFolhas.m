@@ -63,7 +63,7 @@ handles.data_file = '.\Tema 1 - RN\ClassificaçãoFolhas.xlsx';
 
 %Train Variables
 handles.currentTrainNN = 'EMPTY';
-handles.trainDataset = './Tema 1 - RN\Folhas_2';
+handles.trainDataset = './Tema 1 - RN\Folhas_';
 
 %Simulation Variables
 handles.currentSimulationNN = 'EMPTY';
@@ -222,7 +222,7 @@ else
     imagens = LoadImages(selectedDataset{1,1}, handles.scale);
     imagens = UpdateImages(imagens,handles.data_file, handles.scale);
     %- Input and Output Generation
-    input = inputImages(imagens);
+    input = inputfromImageExtration(imagens, handles.scale);
     target = targetCodigoEspecie(imagens);
     
     output = NN(input);
@@ -357,7 +357,7 @@ NNparam.max_fail = 10;
 imagens = LoadImages(handles.trainDataset, handles.scale);
 imagens = UpdateImages(imagens,handles.data_file, handles.scale);
     %- Input and Output Generation
-input = inputImages(imagens);
+input = inputfromImageExtration(imagens, handles.scale);
 target = targetCodigoEspecie(imagens);
 
 [currentTrainNN data pTotal pTeste] = especieNeuralNetwork(NNparam, input, target);
@@ -454,7 +454,17 @@ if strcmp(handles.currentImage, 'EMPTY') == 1
 else 
    [species subSpecies codeSpecies codeSubEspecies] = ClassificationExtration(handles.data_file);
    net = handles.currentClassificationNN;
-   input = handles.currentImage(:);   
+   %input = inputfromImageExtration(handles.currentImage, handles.scale);  
+   
+   %Image Extration of Features
+            points = detectHarrisFeatures(handles.currentImage);
+            points = points.selectStrongest(handles.scale).Location;
+            
+            points = points(:);
+            points = points(1:1:20,:);
+            input(:,1) = points;
+   
+   
    output = net(input)
    output = nnOutputToSpecieCode(output, species);
    set(handles.edit1, 'String', output);
