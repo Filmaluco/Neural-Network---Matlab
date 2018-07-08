@@ -241,9 +241,9 @@ else
    
     %output = nnOutputToSpecieCode (output, species);
     for i = 1 : count
-        [REspecie RsubEspecie] = nnOutputToSpecieCode(output(:,i), connection);
-        [TEspecie TsubEspecie] = nnOutputToSpecieCode(target(:,i), connection);
-    
+        [REspecie RsubEspecie] = nnOutputToSpecieCode(output(:,i), subSpecies, connection);
+        [TEspecie TsubEspecie] = nnOutputToSpecieCode(target(:,i), subSpecies, connection);
+   
         
         if strcmp(RsubEspecie, TsubEspecie) == 1
              d{i, 2} = colergen('#9ACD32',RsubEspecie{1,1});
@@ -269,6 +269,8 @@ else
 
     
     end
+  
+    %display(d);
     handles.dataTable.Data = d;
     
     
@@ -479,12 +481,12 @@ else
    points = detectHarrisFeatures(handles.currentImage);
     points = points.selectStrongest(inputSize/2).Location;
 
-    points = points(:)
+    points = points(:);
             
-   output = net(points)
-    [REspecie RsubEspecie] = nnOutputToSpecieCode(output, connection);
-   set(handles.edit1, 'String', REspecie);
-   set(handles.edit2, 'String', RsubEspecie);
+   output = net(points);
+    [REspecie RsubEspecie] = nnOutputToSpecieCode(output, subSpecies, connection);
+   set(handles.edit1, 'String', REspecie{1,1});
+   set(handles.edit2, 'String', RsubEspecie{1,1});
    
    
    

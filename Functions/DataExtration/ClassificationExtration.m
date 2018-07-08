@@ -17,9 +17,9 @@ nr_species = nr_species(1,1);
 
 nr_subSpecies = nr_subSpecies(1,1);
 
+allSub = size(all_subSpecies);
 
-
-for i = 1 : nr_subSpecies
+for i = 1 : allSub(1,1);
      lista{i, 1} =  all_species(i);
      lista{i, 2} =  all_subSpecies(i);
 end

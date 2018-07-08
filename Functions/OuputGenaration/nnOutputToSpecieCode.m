@@ -1,10 +1,19 @@
-function [especie subespecie] = nnOutputToSpecieCode (output, connection)
+function [especie subespecie] = nnOutputToSpecieCode (output, listaSubEspecies, connection)
 tam = size(connection);
 [valor linha] = max(output);
-especie = connection(linha,1);
+
+subespecie = listaSubEspecies(linha);
+
+for i = 1 : tam(1,1)
+    str2  = connection(i,2);
+    if strcmp(subespecie, str2{1,1}) == 1
+      especie = connection(i,1);
+    end
+    
+end
+
 especie = especie{1,1};
-subespecie = connection(linha,2);
-subespecie = subespecie{1,1};
+%subespecie = subespecie{1,1};
 
 
 end

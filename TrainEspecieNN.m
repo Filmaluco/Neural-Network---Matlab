@@ -13,7 +13,7 @@ imagens = LoadImages(path_to_files, scale);
 imagens = UpdateImages(imagens,data_file, scale);
     %- Input and Output Generation
 input = inputfromImageExtration(imagens, scale);
-target = targetCodigoEspecie(imagens);
+target = targetCodigoSubEspecie(imagens);
 data_extration = toc(tstart); %timer
 
 %Run Especie NN -----------------------------------------------------------
