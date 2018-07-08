@@ -22,7 +22,7 @@ function varargout = RNFolhas(varargin)
 
 % Edit the above text to modify the response to help RNFolhas
 
-% Last Modified by GUIDE v2.5 07-Jul-2018 18:22:36
+% Last Modified by GUIDE v2.5 08-Jul-2018 02:16:18
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -57,13 +57,12 @@ addpath(genpath('./Functions'));
 handles.output = hObject;
 
 %Variables
-handles.scale = 100;
+handles.scale = 200;
 handles.path_to_files = './Tema 1 - RN/'; 
 handles.data_file = '.\Tema 1 - RN\ClassificaçãoFolhas.xlsx';
 
 %Train Variables
 handles.currentTrainNN = 'EMPTY';
-handles.trainDataset = './Tema 1 - RN\Folhas_';
 
 %Simulation Variables
 handles.currentSimulationNN = 'EMPTY';
@@ -72,7 +71,7 @@ handles.currentSimulationNN = 'EMPTY';
 handles.currentClassificationNN = 'EMPTY';
 handles.currentImage = 'EMPTY';
 
-handles.dataTable.ColumnName = {'Result','Target'};
+handles.dataTable.ColumnName = {'Obtidas: Especie','SubEspecie', 'Targets: Especie','SubEspecie'};
 
 % Update handles structure
 guidata(hObject, handles);
@@ -223,35 +222,49 @@ else
     imagens = UpdateImages(imagens,handles.data_file, handles.scale);
     %- Input and Output Generation
     input = inputfromImageExtration(imagens, handles.scale);
-    target = targetCodigoEspecie(imagens);
+    target = targetCodigoSubEspecie(imagens);
     
     output = NN(input);
     
-    [species subSpecies codeSpecies codeSubEspecies] = ClassificationExtration(handles.data_file);
+    [species subSpecies codeSpecies codeSubEspecies connection] = ClassificationExtration(handles.data_file);
     
     count = size(input);
     count = count(1,2);
     
-    certas = 0;
-    erradas = 0;
+    Ecertas = 0;
+    Eerradas = 0;
+    
+    Subcertas = 0;
+    Suberradas = 0;
     
     colergen = @(color,text) ['<html><table border=0 width=400 bgcolor=',color,'><TR><TD>',text,'</TD></TR> </table></html>'];
    
     %output = nnOutputToSpecieCode (output, species);
     for i = 1 : count
-        str1 = nnOutputToSpecieCode(output(:,i), species);
-        str2 = nnOutputToSpecieCode(target(:,i), species);
+        [REspecie RsubEspecie] = nnOutputToSpecieCode(output(:,i), connection);
+        [TEspecie TsubEspecie] = nnOutputToSpecieCode(target(:,i), connection);
     
         
-        if strcmp(str1, str2) == 1
-             d{i, 1} = colergen('#9ACD32',str1{1,1});
-             d{i, 2} = colergen('#9ACD32',str2{1,1}); 
-             certas = certas + 1;
+        if strcmp(RsubEspecie, TsubEspecie) == 1
+             d{i, 2} = colergen('#9ACD32',RsubEspecie{1,1});
+             d{i, 4} = colergen('#9ACD32',TsubEspecie{1,1}); 
+             Ecertas = Ecertas + 1;
              
         else
-            d{i, 1} = colergen('#FF4500',str1{1,1});
-            d{i, 2} = colergen('#FF4500',str2{1,1});
-            erradas = erradas + 1;
+            d{i, 2} = colergen('#FF4500',RsubEspecie{1,1});
+            d{i, 4} = colergen('#FF4500',TsubEspecie{1,1});
+            Eerradas = Eerradas + 1;
+        end
+        
+        if strcmp(REspecie, TEspecie) == 1
+             d{i, 1} = colergen('#9ACD32',REspecie{1,1});
+             d{i, 3} = colergen('#9ACD32',TEspecie{1,1}); 
+             Subcertas = Subcertas + 1;
+             
+        else
+            d{i, 1} = colergen('#FF4500',REspecie{1,1});
+            d{i, 3} = colergen('#FF4500',TEspecie{1,1});
+            Suberradas = Suberradas + 1;
         end
 
     
@@ -259,10 +272,10 @@ else
     handles.dataTable.Data = d;
     
     
-    set(handles.text19, 'String', certas);
-    set(handles.text20, 'String', erradas);
-    set(handles.text21, 'String', (certas/count)*100);
-    set(handles.text22, 'String', (erradas/count)*100);
+    set(handles.text19, 'String', Subcertas);
+    set(handles.text20, 'String', Suberradas);
+    set(handles.text21, 'String', (Subcertas/count)*100);
+    set(handles.text22, 'String', (Suberradas/count)*100);
     
     set(handles.figure1, 'pointer', 'arrow')
     
@@ -347,6 +360,11 @@ all_fTreino = get(handles.pop_fTreino,'String');
 NNparam.fTreino = all_fTreino(get(handles.pop_fTreino,'Value'),:);
 NNparam.fTreino = NNparam.fTreino{1,1};
 
+selectedDataset = get(handles.pop_dataset,'String');
+selectedDataset = selectedDataset(get(handles.pop_dataset,'Value'),:);
+
+selectedDataset = strcat(handles.path_to_files, selectedDataset);
+
 %Default param
 NNparam.neuronios = 10;
 NNparam.trainRatio = 0.7;
@@ -354,13 +372,13 @@ NNparam.valRatio = 0.15;
 NNparam.testRatio = 0.15;
 NNparam.max_fail = 10;
 
-imagens = LoadImages(handles.trainDataset, handles.scale);
+imagens = LoadImages(selectedDataset{1,1}, handles.scale);
 imagens = UpdateImages(imagens,handles.data_file, handles.scale);
     %- Input and Output Generation
 input = inputfromImageExtration(imagens, handles.scale);
-target = targetCodigoEspecie(imagens);
+target = targetCodigoSubEspecie(imagens);
 
-[currentTrainNN data pTotal pTeste] = especieNeuralNetwork(NNparam, input, target);
+[currentTrainNN data pTotal pTeste] = NeuralNetwork(NNparam, input, target);
 
 handles.currentTrainNN = currentTrainNN;
 
@@ -452,22 +470,23 @@ function bt_class_Callback(hObject, eventdata, handles)
 if strcmp(handles.currentImage, 'EMPTY') == 1
    errordlg('Por favor carregue uma imagem primeiro','NN not found');
 else 
-   [species subSpecies codeSpecies codeSubEspecies] = ClassificationExtration(handles.data_file);
+   [species subSpecies codeSpecies codeSubEspecies connection] = ClassificationExtration(handles.data_file);
    net = handles.currentClassificationNN;
    %input = inputfromImageExtration(handles.currentImage, handles.scale);  
    
    %Image Extration of Features
-            points = detectHarrisFeatures(handles.currentImage);
-            points = points.selectStrongest(handles.scale).Location;
+   inputSize = net.inputs.size;
+   
+   points = detectHarrisFeatures(handles.currentImage);
+   points = points.selectStrongest(inputSize{1,1}).Location;
+
+    points = points(1:inputSize{1,1});
+    input(:,1) = points;
             
-            points = points(:);
-            points = points(1:1:20,:);
-            input(:,1) = points;
-   
-   
    output = net(input)
-   output = nnOutputToSpecieCode(output, species);
-   set(handles.edit1, 'String', output);
+    [REspecie RsubEspecie] = nnOutputToSpecieCode(output, connection);
+   set(handles.edit1, 'String', REspecie);
+   set(handles.edit2, 'String', RsubEspecie);
    
    
    
@@ -481,3 +500,26 @@ function imageDisplay_CreateFcn(hObject, eventdata, handles)
 % handles    empty - handles not created until after all CreateFcns called
 
 % Hint: place code in OpeningFcn to populate imageDisplay
+
+
+% --- Executes on selection change in popupmenu8.
+function popupmenu8_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu8 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu8
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu8_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end

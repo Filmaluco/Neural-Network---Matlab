@@ -1,4 +1,4 @@
-function [species subSpecies codeSpecies codeSubEspecies] = ClassificationExtration(fileName)
+function [species subSpecies codeSpecies codeSubEspecies lista] = ClassificationExtration(fileName)
 
 [num,txt,raw] = xlsread(fileName);
 b = size(raw);
@@ -16,6 +16,15 @@ nr_subSpecies = size(subSpecies);
 nr_species = nr_species(1,1);
 
 nr_subSpecies = nr_subSpecies(1,1);
+
+
+
+for i = 1 : nr_subSpecies
+     lista{i, 1} =  all_species(i);
+     lista{i, 2} =  all_subSpecies(i);
+end
+
+
 
 
 

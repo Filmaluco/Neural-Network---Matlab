@@ -1,8 +1,10 @@
-function output = nnOutputToSpecieCode (output, species)
-tam = size(species);
+function [especie subespecie] = nnOutputToSpecieCode (output, connection)
+tam = size(connection);
 [valor linha] = max(output);
-output = species(linha);
-
+especie = connection(linha,1);
+especie = especie{1,1};
+subespecie = connection(linha,2);
+subespecie = subespecie{1,1};
 
 
 end
